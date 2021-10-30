@@ -14,7 +14,7 @@ float RandomFloat(int min, int max){
 
 int main(){
     
-    int n = 0, min = 0, max = 0, i = 0;
+    int n = 0, min = 0, max = 0, i = 0, indexOfNumber = 1;
     double sum = 0.0;
     double* randomNumber;
     int* randomNumberDecimal;
@@ -43,16 +43,16 @@ int main(){
     // проверяем условия для суммирования
     for (i = 0; i < n; i++){
         
-        if (randomNumberDecimal[i] > 0) {
+        if (randomNumberDecimal[i] == indexOfNumber) {
             sum -= randomNumber[i];
         }
         else {
             sum += randomNumber[i];
         }
-        
+        indexOfNumber++;
     }
     // вывод суммы
-    printf("Полученная сумма: %f", sum);
+    printf("Полученная сумма: %f\n", sum);
     return 0; // программа успешно завершена
 }
 
