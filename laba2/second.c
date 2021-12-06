@@ -8,7 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <time.h>
+#include <math.h>
 #include "sortingsHeader.h"
 
 
@@ -39,15 +41,18 @@ void bubbleSort(int linesCount, double* randomNumber, double t, FILE* fp){
     printf("Время отсортировки: %lf\n", t);
 }
 
-int main(){
+int main(int argc, char *argv[]){
+    
     FILE* fp;
     char ch;
-    int i, sort = 0;
+    int i, sort = 0, p = 0;
     int linesCount = 0;
-    double* randomNumber;
+    double secondSum = 0, sqrtedNums = 0, maxVector = -INFINITY, normVector = 0;
+    double* randomNumber, *pRandomNumber;
     double t = 0;
     int menuOption = 0;
     
+
     fp = fopen("textFile.txt", "r");
     
     while((ch=fgetc(fp))!=EOF) {
@@ -56,15 +61,42 @@ int main(){
        }
     
     randomNumber = (double*)malloc(linesCount * sizeof(double));
-    
+    pRandomNumber = (double*)malloc(linesCount * sizeof(double));
+
     rewind(fp);
     for (i = 0; i < linesCount; i++){
         fscanf(fp, "%lf", &randomNumber[i]);
     }
     
+    if(argc == 2){
+        if (strcmp("--fast", argv[1]) == 0) {
+            fastSort(linesCount,randomNumber,t,fp);
+            for (i = 0; i < linesCount; i++){
+                   printf("%d) %lf\n", i + 1, randomNumber[i]);
+                
+            }
+            return 0;
+        } else if (strcmp("--bubble", argv[1]) == 0) {
+           bubbleSort(linesCount,randomNumber,t,fp);
+            for (i = 0; i < linesCount; i++){
+                   printf("%d) %lf\n", i + 1, randomNumber[i]);
+                
+            }
+           return 0;
+        } else if (strcmp("--insertion", argv[1]) == 0) {
+            insertSort(linesCount,randomNumber,t,fp);
+            for (i = 0; i < linesCount; i++){
+                   printf("%d) %lf\n", i + 1, randomNumber[i]);
+                
+            }
+            return 0;
+       }
+    }
+    
     do{
-        printf("Выберите действие:\n\n1) Печать\n2) Сортировка\n3) Сброс\n4) Выход\n\nВаш выбор: ");
+        printf("Выберите действие:\n\n1) Печать\n2) Сортировка\n3) Сброс\n4) Вычисление первой нормы вектора\n5) Вычисление второй нормы вектора\n6) Вычисление Гельдеровой нормы вектора\n7) Вычисление бесконечной нормы вектора\n8) Выполнить нормировку вектора\n9) Выход\n\nВаш выбор: ");
         scanf("%d", &menuOption);
+        secondSum = 0;
         
         switch(menuOption){
             case 1:
@@ -72,6 +104,7 @@ int main(){
                      {
                        printf("%d) %lf\n", i + 1, randomNumber[i]);
                      }
+                sleep(2);
                 break;
                 
             case 2:
@@ -102,18 +135,79 @@ int main(){
                     fscanf(fp, "%lf", &randomNumber[linesCount]);
                 }
                 printf("Массив сброшен. Он полностью пустой\n");
+                sleep(2);
                 break;
                 
             case 4:
-                printf("Завершение программы...\n\n");
-                sleep(5);
+                for(i = 0; i < linesCount; i++){
+                    pRandomNumber[i] = fabs(randomNumber[i]);
+                    secondSum += pRandomNumber[i];
+                    
+                }
+                printf("%f\n", secondSum);
+                sleep(2);
                 break;
+                
+            case 5:
+                for(i = 0; i < linesCount; i++){
+                    pRandomNumber[i] = fabs(randomNumber[i]);
+                    secondSum += pRandomNumber[i] * pRandomNumber[i];
+                    
+                }
+                
+                printf("%f\n", sqrt(secondSum));
+                sleep(2);
+                break;
+                
+            case 6:
+                printf("Введите значение P: ");
+                scanf("%d", &p);
+                for(i = 0; i < linesCount; i++){
+                    secondSum += pow(fabs(randomNumber[i]), p);
+                }
+                normVector = pow(secondSum, 1.0/p);
+                printf("%f\n\n", normVector);
+                sleep(2);
+                break;
+                
+            case 7:
+                for(i = 0; i < linesCount; i++){
+                    pRandomNumber[i] = fabs(randomNumber[i]);
+                }
+                for(i = 0; i < linesCount; i++){
+                    if(pRandomNumber[i] > maxVector){
+                        maxVector = pRandomNumber[i];
+                    }
+                }
+                printf("Бесконечная норма вектора равна %f", maxVector);
+                sleep(2);
+                break;
+                
+            case 8:
+                for(i = 0; i < linesCount; i++){
+                    pRandomNumber[i] = fabs(randomNumber[i]);
+                    secondSum += pRandomNumber[i] * pRandomNumber[i];
+                    
+                }
+                sqrtedNums = sqrt(secondSum);
+                for(i = 0; i < linesCount; i++){
+                    printf("%d) %f\n", i + 1,randomNumber[i]/sqrtedNums);
+                }
+                sleep(2);
+                break;
+                
+                
+            case 9:
+                printf("Завершение программы...\n\n");
+                sleep(3);
+                break;
+                
                 
             default:
                 printf("Не корректный ввод\n\n");
         }
         
-    }while(menuOption != 4);
+    }while(menuOption != 9);
     
     fclose(fp);
     free(randomNumber);
