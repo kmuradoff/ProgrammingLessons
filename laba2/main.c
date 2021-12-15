@@ -13,14 +13,15 @@ float RandomFloat(int min, int max){
    return ((max - min) * ((double)rand() / RAND_MAX)) + min;
 }
 
-int ss(){
+int dfdf1(){
     
     FILE *file;
+    system("pwd");
     
     int n = 0, min = 0, max = 0, i = 0, indexOfNumber = 1;
     double sum = 0.0;
-    double *randomNumber, *keyboardNumber;
-    int menuOption = 0, stopInput = 0;
+    unsigned char *randomNumber, *keyboardNumber;
+    int menuOption = 0;
     int* randomNumberDecimal;
     
     do{
@@ -34,21 +35,22 @@ int ss(){
                 printf("Введите количество вводимых чисел: ");
                 scanf("%d", &n);
                 if(n <= 0) {
-                    printf("Кол-во чисел не может быть меньше или равно 0.");
+                    printf("Кол-во чисел не может быть меньше или равно 0.\n");
+                    menuOption = 1;
                     break;
                 } else{
-                    keyboardNumber = (double*)malloc(n * sizeof(double));
-                    printf("Введите ваши числа...\n");
-                    for (i = 0; i < n; i++){
-                        scanf("%lf", keyboardNumber);
-                        fprintf(file, "%f\n", *keyboardNumber);
+                    keyboardNumber = (unsigned char*)malloc(n * sizeof(unsigned char));
+                    printf("Вводимое число не может быть меньше 0 и больше 255\n");
+                    
+                        for (i = 1; i < n + 1; i++){
+                            scanf("%hhu", keyboardNumber);
+                            fprintf ("%hhu\n%hhu", *keyboardNumber);
                     }
                     printf("\nИдет запись чисел. Ожидание...\n\n");
                     sleep(1);
                     printf("Запись чисел с клавиатуры была произведена успешно!");
                 
                 }
-                
                 printf("Запись прошла успешно!\n");
                 fclose(file);
                 free(keyboardNumber);
@@ -67,7 +69,7 @@ int ss(){
                 
                 printf("\n");
                 
-                randomNumber = (double*)malloc(n * sizeof(double));
+                randomNumber = (unsigned char*)malloc(n * sizeof(unsigned char));
                 randomNumberDecimal = (int*)malloc(n * sizeof(int));
                 
                 // создаем рандомное число и узнаем десятичную часть числа
@@ -75,7 +77,7 @@ int ss(){
                     
                     randomNumber[i] = RandomFloat(min, max);
                     randomNumberDecimal[i] = (randomNumber[i] - (int)randomNumber[i]) * 1000000;
-                    fprintf(file, "%f\n",randomNumber[i]);
+                    fprintf(file, "%hhu\n",randomNumber[i]);
                     
                 }
                 // проверяем условия для суммирования

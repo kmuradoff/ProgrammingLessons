@@ -14,7 +14,7 @@
 #include "sortingsHeader.h"
 
 
-void fastSort(int linesCount, double* randomNumber, double t, FILE* fp){
+void fastSort(int linesCount, unsigned char* randomNumber, double t, FILE* fp){
     rewind(fp);
     clock_t start = clock();
     quickSort(randomNumber, 0, linesCount - 1);
@@ -23,7 +23,7 @@ void fastSort(int linesCount, double* randomNumber, double t, FILE* fp){
     printf("Время, занятое сортировкой: %lf\n", t);
 }
 
-void insertSort(int linesCount, double* randomNumber, double t, FILE* fp){
+void insertSort(int linesCount, unsigned char* randomNumber, double t, FILE* fp){
     rewind(fp);
     clock_t start = clock();
     InsertionSort(linesCount, randomNumber);
@@ -32,7 +32,7 @@ void insertSort(int linesCount, double* randomNumber, double t, FILE* fp){
     printf("Время отсортировки: %lf\n", t);
 }
 
-void bubbleSort(int linesCount, double* randomNumber, double t, FILE* fp){
+void bubbleSort(int linesCount, unsigned char* randomNumber, double t, FILE* fp){
     rewind(fp);
     clock_t start = clock();
     BubbleSort(linesCount, randomNumber);
@@ -48,7 +48,7 @@ int main(int argc, char *argv[]){
     int i, sort = 0, p = 0;
     int linesCount = 0;
     double secondSum = 0, sqrtedNums = 0, maxVector = -INFINITY, normVector = 0;
-    double* randomNumber, *pRandomNumber;
+    unsigned char* randomNumber, *pRandomNumber;
     double t = 0;
     int menuOption = 0;
     
@@ -60,33 +60,33 @@ int main(int argc, char *argv[]){
              linesCount++;
        }
     
-    randomNumber = (double*)malloc(linesCount * sizeof(double));
-    pRandomNumber = (double*)malloc(linesCount * sizeof(double));
+    randomNumber = (unsigned char*)malloc(linesCount * sizeof(unsigned char));
+    pRandomNumber = (unsigned char*)malloc(linesCount * sizeof(unsigned char));
 
     rewind(fp);
     for (i = 0; i < linesCount; i++){
-        fscanf(fp, "%lf", &randomNumber[i]);
+        fscanf(fp, "%hhu", &randomNumber[i]);
     }
     
     if(argc == 2){
         if (strcmp("--fast", argv[1]) == 0) {
             fastSort(linesCount,randomNumber,t,fp);
             for (i = 0; i < linesCount; i++){
-                   printf("%d) %lf\n", i + 1, randomNumber[i]);
+                   printf("%d) %hhu\n", i + 1, randomNumber[i]);
                 
             }
             return 0;
         } else if (strcmp("--bubble", argv[1]) == 0) {
            bubbleSort(linesCount,randomNumber,t,fp);
             for (i = 0; i < linesCount; i++){
-                   printf("%d) %lf\n", i + 1, randomNumber[i]);
+                   printf("%d) %hhu\n", i + 1, randomNumber[i]);
                 
             }
            return 0;
         } else if (strcmp("--insertion", argv[1]) == 0) {
             insertSort(linesCount,randomNumber,t,fp);
             for (i = 0; i < linesCount; i++){
-                   printf("%d) %lf\n", i + 1, randomNumber[i]);
+                   printf("%d) %hhu\n", i + 1, randomNumber[i]);
                 
             }
             return 0;
@@ -102,7 +102,7 @@ int main(int argc, char *argv[]){
             case 1:
                 for (i = 0; i < linesCount; i++)
                      {
-                       printf("%d) %lf\n", i + 1, randomNumber[i]);
+                       printf("%d) %hhu\n", i + 1, randomNumber[i]);
                      }
                 sleep(2);
                 break;
@@ -130,17 +130,16 @@ int main(int argc, char *argv[]){
                 break;
                 
             case 3:
-                rewind(fp);
                 for (i = 0; i < linesCount; i++){
-                    fscanf(fp, "%lf", &randomNumber[linesCount]);
+                    fscanf(fp, "%hhu", &randomNumber[i]);
                 }
-                printf("Массив сброшен. Он полностью пустой\n");
+                printf("Массив сброшен.\n");
                 sleep(2);
                 break;
                 
             case 4:
                 for(i = 0; i < linesCount; i++){
-                    pRandomNumber[i] = fabs(randomNumber[i]);
+                    pRandomNumber[i] = (randomNumber[i]);
                     secondSum += pRandomNumber[i];
                     
                 }
@@ -150,7 +149,7 @@ int main(int argc, char *argv[]){
                 
             case 5:
                 for(i = 0; i < linesCount; i++){
-                    pRandomNumber[i] = fabs(randomNumber[i]);
+                    pRandomNumber[i] = (randomNumber[i]);
                     secondSum += pRandomNumber[i] * pRandomNumber[i];
                     
                 }
@@ -163,7 +162,7 @@ int main(int argc, char *argv[]){
                 printf("Введите значение P: ");
                 scanf("%d", &p);
                 for(i = 0; i < linesCount; i++){
-                    secondSum += pow(fabs(randomNumber[i]), p);
+                    secondSum += pow((randomNumber[i]), p);
                 }
                 normVector = pow(secondSum, 1.0/p);
                 printf("%f\n\n", normVector);
@@ -172,7 +171,7 @@ int main(int argc, char *argv[]){
                 
             case 7:
                 for(i = 0; i < linesCount; i++){
-                    pRandomNumber[i] = fabs(randomNumber[i]);
+                    pRandomNumber[i] = (randomNumber[i]);
                 }
                 for(i = 0; i < linesCount; i++){
                     if(pRandomNumber[i] > maxVector){
@@ -185,7 +184,7 @@ int main(int argc, char *argv[]){
                 
             case 8:
                 for(i = 0; i < linesCount; i++){
-                    pRandomNumber[i] = fabs(randomNumber[i]);
+                    pRandomNumber[i] = (randomNumber[i]);
                     secondSum += pRandomNumber[i] * pRandomNumber[i];
                     
                 }

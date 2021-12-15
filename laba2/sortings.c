@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 //сортировка пузырьком
-void BubbleSort(int n, double a[]) {
+void BubbleSort(int n, unsigned char a[]) {
 
   int i, j;
 
@@ -21,7 +21,7 @@ void BubbleSort(int n, double a[]) {
 }
 
 //сортировка вставкой
-void InsertionSort(int n, double a[]) {
+void InsertionSort(int n, unsigned char a[]) {
 
   int i;
   int location;
@@ -42,7 +42,7 @@ void InsertionSort(int n, double a[]) {
 }
 
 //быстрая сортировка
-void quickSort(double* a, int left, int right) {
+void quickSort(unsigned char* a, int left, int right) {
 
   int i, j;
   double x, y;
